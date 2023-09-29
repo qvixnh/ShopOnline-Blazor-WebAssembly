@@ -19,8 +19,4 @@
     <ProjectReference Include="..\ShopOnline.Models\ShopOnline.Models.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Extensions\" />
-  </ItemGroup>
-
 </Project>
