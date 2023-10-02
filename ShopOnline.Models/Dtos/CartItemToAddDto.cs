@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ShopOnline.Models.Dtos
 {
-    public class CartItemToAdd
+    public class CartItemToAddDto
     {
         public int CartId { get; set; }
         public int ProductId { get; set; }

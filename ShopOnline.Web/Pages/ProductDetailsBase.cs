@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using ShopOnline.Models.Dtos;
+using ShopOnline.Web.Services;
 using ShopOnline.Web.Services.Contracts;
 
 namespace ShopOnline.Web.Pages
@@ -10,6 +11,13 @@ namespace ShopOnline.Web.Pages
         public int Id { get; set; }
         [Inject]
         public IProductService ProductService { get; set; }
+
+        [Inject]
+        public IShoppingCartService ShoppingCartService { get; set; }
+
+        [Inject]
+        public NavigationManager NavigationManager { get; set; }
+
         public ProductDto Product { get; set; }
         public string ErrorMessage { get; set; }
         protected override async Task OnInitializedAsync()
@@ -22,6 +30,19 @@ namespace ShopOnline.Web.Pages
             {
                 ErrorMessage  = ex.Message;
             
+            }
+        }
+
+        protected async Task AddtoCart_Click(CartItemToAddDto cartItemToAddDto) {
+            try
+            {
+                var cartItemDto = await ShoppingCartService.AddItem(cartItemToAddDto);
+                NavigationManager.NavigateTo("/ShoppingCart");
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
     }
