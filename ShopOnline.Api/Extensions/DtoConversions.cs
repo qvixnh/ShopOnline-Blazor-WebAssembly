@@ -1,10 +1,22 @@
 ﻿using ShopOnline.Api.Entities;
 using ShopOnline.Models.Dtos;
+using System.Net.NetworkInformation;
 
 namespace ShopOnline.Api.Extensions
 {
     public static class DtoConversions
     {
+
+        public static IEnumerable<ProductCategoryDto> ConvertToDto(this IEnumerable<ProductCategory> categories)
+        {
+            return (from cat in categories
+                    select new ProductCategoryDto
+                    {
+                        Id = cat.Id,
+                        Name = cat.Name,
+                        IconCSS = cat.IconCSS,
+                    }).ToList();
+        }
         public static IEnumerable<ProductDto> ConvertToDto(this IEnumerable<Product> products, IEnumerable<ProductCategory> productCategories)
         {
             return (from product in products

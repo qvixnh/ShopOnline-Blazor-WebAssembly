@@ -65,5 +65,57 @@ namespace ShopOnline.Web.Services
                 throw;
             }
         }
+
+        public async Task<IEnumerable<ProductDto>> GetItemsByCategory(int categoryId)
+        {
+            try
+            {
+                var response = await httpClient.GetAsync($"api/Product/{categoryId}/GetItemsByCategory");
+                if (response.IsSuccessStatusCode)
+                {
+                    if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+                    {
+                        return Enumerable.Empty<ProductDto>();
+                    }
+                    return await response.Content.ReadFromJsonAsync<IEnumerable<ProductDto>>();
+                }
+                else
+                {
+                    var message = await response.Content.ReadAsStringAsync();
+                    throw new Exception($"Http Satus Code - {response.StatusCode} Message - {message}");
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<ProductCategoryDto>> GetProductCategories()
+        {
+            try
+            {
+                var response = await httpClient.GetAsync("api/Product/GetProductCategories");
+                if (response.IsSuccessStatusCode)
+                {
+                    if(response.StatusCode == System.Net.HttpStatusCode.NoContent)
+                    {
+                        return Enumerable.Empty<ProductCategoryDto>();
+                    }
+                    return await response.Content.ReadFromJsonAsync<IEnumerable<ProductCategoryDto>>();
+                }
+                else
+                {
+                    var message = await response.Content.ReadAsStringAsync();
+                    throw new Exception($"Http Satus Code - {response.StatusCode} Message - {message}");
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }
