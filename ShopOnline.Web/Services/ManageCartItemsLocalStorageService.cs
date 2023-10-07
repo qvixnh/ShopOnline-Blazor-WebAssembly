@@ -16,25 +16,31 @@ namespace ShopOnline.Web.Services
             this.localStorageService = localStorageService;
             this.shoppingCartService = shoppingCartService;
         }
-        public Task<List<CartItemDto>> GetCollection()
+        public async Task<List<CartItemDto>> GetCollection()
         {
-            return await this.localStorageService.GetItemAsync<IEnumerable<ProductDto>>(key)
+            return await this.localStorageService.GetItemAsync<List<CartItemDto>>(key)
                 ?? await AddCollection();
         }
 
-        public Task RemoveCollection()
+        public async Task RemoveCollection()
         {
-            throw new NotImplementedException();
+            await localStorageService.RemoveItemAsync(key);
         }
-        public Task SaveCollection(List<CartItemDto> cartItemDtos)
+        public async Task SaveCollection(List<CartItemDto> cartItemDtos)
         {
-            throw new NotImplementedException();
+            await localStorageService.SetItemAsync(key,cartItemDtos); 
         }
 
         private async Task<List<CartItemDto>> AddCollection()
         {
             var shoppingCartCollection = await shoppingCartService.GetItems(HardCoded.UserId);
+            if (shoppingCartCollection != null)
+            {
 
+                await this.localStorageService.SetItemAsync(key, shoppingCartCollection);
+
+            }
+            return shoppingCartCollection;
         }
     }
 }
